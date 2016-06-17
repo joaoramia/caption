@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+
+  "name": "Youtube Subtitle Collaboration",
+  "description": "This extension allows people to contribute to the translation of Youtube videos",
+  "version": "1.0",
+
+  "page_action": {
+    "default_icon": "icon.png",
+    "default_title": "Youtube Subtitles"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.youtube.com/watch?*"],
+      "css": ["mystyles.css"],
+      "js": ["jquery.min.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": ["mystyles.css", "content.js"],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "https://ajax.googleapis.com/"
+  ]
+}
