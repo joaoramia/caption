@@ -1,14 +1,8 @@
-var invocation = new XMLHttpRequest();
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
   if (request.data.url.includes("youtube.com/watch")){
 
     hideComments();
-
-    changeVideoStyle();
-
-    addSubtitlesField();
 
     appendSubtitleForm(request.data.url.substr(30));
 
@@ -28,14 +22,14 @@ function hideComments() {
   }
 }
 
-function changeVideoStyle(){
-  $("#movie_player").css({"opacity": 0.3})
-  $(".captions-text").css({"color": "yellow"})
-}
+// function changeVideoStyle(){
+//   $("#movie_player").css({"opacity": 0.3})
+//   $(".captions-text").css({"color": "yellow"})
+// }
 
-function addSubtitlesField(){
-  $("#movie_player").append("<div><p>Hi</p></div>")
-}
+// function addSubtitlesField(){
+//   $("#movie_player").append("<div><p>Hi</p></div>")
+// }
 
 function appendSubtitleForm(url){
 
@@ -71,6 +65,8 @@ function appendSubtitleForm(url){
     return false;
   });
 }
+
+//The function below uses a jsonp request to handle cross domain ajax.
 
 function showNewComments (url){
   $("#watch-header").append("<div id='newcomments'>Comments</div>");

@@ -6,9 +6,7 @@ var https = require('https');
 var app = require('./app');
 var path = require('path');
 
-// var server = require('https').createServer({cert: fs.readFileSync(path.join(__dirname + '/cert.pem')),
-//   key: fs.readFileSync(path.join(__dirname + '/key.pem'))
-// });
+// HTTPS was created in order to fix security issues with Youtube.
 
 var server = https.createServer({
   cert: fs.readFileSync(path.join(__dirname + '/cert.pem')),
