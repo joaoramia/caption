@@ -20,10 +20,8 @@ router.get('/', function(req, res, next){
 })
 
 router.get('/:url', function(req, res, next){
-  console.log(req.params.url);
   Subtitle.findAll({where: {url: req.params.url}})
   .then(function(response){
-    console.log(response);
     res.send(response);
   })
   .catch(next);

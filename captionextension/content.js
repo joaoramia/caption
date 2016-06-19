@@ -77,7 +77,6 @@ function showNewComments (url){
       url: 'https://localhost:1337/api/' + url,
       jsonp: false,
       success: function(res){
-        console.log(res);
           var text = '';
           var len = res.length;
           for(var i=0;i<len;i++){
