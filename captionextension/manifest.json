@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
 
-  "name": "Youtube Subtitle Collaboration",
-  "description": "This extension allows people to contribute to the translation of Youtube videos",
+  "name": "Youtube Comments",
+  "description": "This extension filters the comments in Youtube videos, hiding swear words.",
   "version": "1.0",
 
   "page_action": {
     "default_icon": "icon.png",
-    "default_title": "Youtube Subtitles"
+    "default_title": "Youtube Comments"
   },
   "background": {
     "scripts": ["background.js"],

@@ -1,26 +1,28 @@
-var xhr = new XMLHttpRequest();
+var invocation = new XMLHttpRequest();
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
   if (request.data.url.includes("youtube.com/watch")){
 
-    showHide();
+    hideComments();
 
     changeVideoStyle();
 
-    addSubtitlesField(request.data.url);
+    addSubtitlesField();
 
-    appendSubtitleForm(request.data.url);
+    appendSubtitleForm(request.data.url.substr(30));
+
+    showNewComments(request.data.url.substr(30));
 
   }
 
 });
 
-function showHide() {  
+function hideComments() {
   var el = $("#watch-discussion");
   if (el && el.css("display") == 'none'){
     el.css({"display": "block"});
-  }  
+  }
   else {
     el.css({"display": "none"})
   }
@@ -28,21 +30,20 @@ function showHide() {
 
 function changeVideoStyle(){
   $("#movie_player").css({"opacity": 0.3})
+  $(".captions-text").css({"color": "yellow"})
 }
 
-function addSubtitlesField(url){
-  $("#movie_player").append("<div><p>" + url + "</p></div>")
+function addSubtitlesField(){
+  $("#movie_player").append("<div><p>Hi</p></div>")
 }
 
 function appendSubtitleForm(url){
-  console.log("xxxxxxxxxxxxxxxxxxxxx")
+
   $("#watch-header").append("<form id='captionform'></form>");
   
   var $form = $("#captionform");
 
-  $form.append("<h4>Write your captions below</h4>");
-
-  // $form.append("<input id='captioninput' type='text' name='subtitles'>");
+  $form.append("<h4>Write your comment below (be nice)</h4>");
 
   $form.append("<textarea id='captioninput' form='captionform' cols='40' rows='5' type='text' name='subtitles'></textarea>");
   
@@ -57,17 +58,40 @@ function appendSubtitleForm(url){
   $caption.css({"border": "1px solid #ccc"});
   $caption.css({"box-sizing": "border-box"});
   $caption.css({"padding": "20px 10px"});
-  $caption.css({"line-height": "28px"});
+  $caption.css({"line-height": "20px"});
 
   $form.submit(function(event){
+
     $.ajax({
       method: "POST",
       url: "https://localhost:1337/api/",
-      data: { url: url, content: $(this).serialize() }
+      data: { url: url, content: $(this).context[0].value }
     })
-    .done(function( msg ) {
-      alert( "Data Saved: " + msg );
-    });
+    .done(function( msg ) {});
     return false;
   });
 }
+
+function showNewComments (url){
+  $("#watch-header").append("<div id='newcomments'>Comments</div>");
+
+  var text = '';
+  
+  $.ajax({
+      url: 'https://localhost:1337/api/' + url,
+      jsonp: false,
+      success: function(res){
+        console.log(res);
+          var text = '';
+          var len = res.length;
+          for(var i=0;i<len;i++){
+              var comment = res[i];
+              text += '<h4>' + comment.createdAt + '</h4><h3 class="newcomment">' + comment.content + '</h3><br>';
+          }
+          $("#newcomments").append(text);
+      }
+  });
+
+  $(".newcomment").css()
+}
+

@@ -5,8 +5,13 @@ var app = express();
 
 module.exports = function (db) {
 
-    app.use('/api', require('../routes'));
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
 
+    app.use('/api', require('../routes'));
 
     /*
      This middleware will catch any URLs resembling a file extension
@@ -21,8 +26,9 @@ module.exports = function (db) {
         } else {
             next(null);
         }
-
     });
+
+
 
     // app.get('/*', function (req, res) {
     //     res.sendFile(app.get('indexHTMLPath'));
